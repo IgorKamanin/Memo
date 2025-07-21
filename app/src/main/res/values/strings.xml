@@ -1,3 +1,30 @@
 <resources>
     <string name="app_name">Memo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="image0">image0</string>
+    <string name="image1">image1</string>
+    <string name="image2">image2</string>
+    <string name="image3">image3</string>
+    <string name="image4">image4</string>
+    <string name="image5">image5</string>
+    <string name="image6">image6</string>
+    <string name="image7">image7</string>
+    <string name="image8">image8</string>
+    <string name="image9">image9</string>
+    <string name="image10">image10</string>
+    <string name="image11">image11</string>
+    <string name="image12">image12</string>
+    <string name="image13">image13</string>
+    <string name="image14">image14</string>
+    <string name="image15">image15</string>
+    <string name="image16">image16</string>
+    <string name="image17">image17</string>
+    <string name="image18">image18</string>
+    <string name="image19">image19</string>
+    <string name="image20">image20</string>
+    <string name="image21">image21</string>
+    <string name="image22">image22</string>
+    <string name="image23">image23</string>
+    <string name="image24">image24</string>
 </resources>
