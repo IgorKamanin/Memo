@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.example.memo.databinding.FragmentGameBinding
 
 
@@ -15,6 +15,8 @@ class GameFragment : Fragment() {
     val binding by lazy {
         FragmentGameBinding.inflate(layoutInflater)
     }
+
+    private lateinit var viewModel: GameViewModel
 
 
 
@@ -33,7 +35,8 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel = ViewModelProvider(this)[GameViewModel::class.java]
+        viewModel.generateLevel()
         val images = mutableListOf<ImageView>().apply {
             add(binding.image0)
             add(binding.image1)
@@ -62,11 +65,39 @@ class GameFragment : Fragment() {
             add(binding.image24)
         }
 
+        viewModel.imagesLD.observe(viewLifecycleOwner){
+//            Toast.makeText(requireContext(), it[0].toString(), Toast.LENGTH_LONG).show()
+
+            for (i in 0 until images.size) {
+                images[i].setImageResource(getResourceId(it[i]))
+            }
+        }
+
+
         for (image in images) {
             image.setOnClickListener {
                 image.setImageResource(R.drawable.done)
             }
         }
+    }
+
+    private fun getResourceId(s: ImageResources):Int{
+        return when(s){
+            ImageResources.MEDIATION -> R.drawable.mediation0
+            ImageResources.COOPERATE -> R.drawable.cooperate1
+            ImageResources.TRASPARENCY -> R.drawable.trasparency2
+            ImageResources.RESPONSIBILITY -> R.drawable.responsibility3
+            ImageResources.VOLUNTARINESS -> R.drawable.voluntariness4
+            ImageResources.SHUTTLE -> R.drawable.shuttle5
+            ImageResources.EMOTIONS -> R.drawable.emotions6
+            ImageResources.INTERESTS -> R.drawable.interests7
+            ImageResources.RECONCILIATION -> R.drawable.reconciliation8
+            ImageResources.CONFLICT -> R.drawable.conflict9
+            ImageResources.CAUCUS -> R.drawable.caucus10
+            ImageResources.NEUTRALITY -> R.drawable.neutrality11
+            ImageResources.CONFIDENTIALITY -> R.drawable.confidentiality12
+        }
+
     }
 
     companion object {

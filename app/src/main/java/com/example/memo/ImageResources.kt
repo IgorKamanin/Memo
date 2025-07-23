@@ -1,0 +1,18 @@
+package com.example.memo
+
+enum class ImageResources{
+    MEDIATION,
+    COOPERATE,
+    TRASPARENCY,
+    RESPONSIBILITY,
+    VOLUNTARINESS,
+    SHUTTLE,
+    EMOTIONS,
+    INTERESTS,
+    RECONCILIATION,
+    CONFLICT,
+    CAUCUS,
+    NEUTRALITY,
+    CONFIDENTIALITY
+}
+
