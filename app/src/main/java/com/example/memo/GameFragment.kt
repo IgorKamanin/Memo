@@ -12,11 +12,14 @@ import com.example.memo.databinding.FragmentGameBinding
 
 class GameFragment : Fragment() {
 
-    val binding by lazy {
-        FragmentGameBinding.inflate(layoutInflater)
-    }
+    private var _binding: FragmentGameBinding? = null
+    private val binding: FragmentGameBinding
+        get() =  _binding ?: throw RuntimeException("FragmentGameBinding == null")
 
     private lateinit var viewModel: GameViewModel
+    private val imagesList = mutableListOf<ImageResources>()
+    private var firstNumber: Int = -1
+    private var secondNumber: Int = -1
 
 
 
@@ -29,56 +32,58 @@ class GameFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+        _binding = FragmentGameBinding.inflate(inflater, container, false)
         return binding.root
-//        inflater.inflate(R.layout.fragment_game, container, false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[GameViewModel::class.java]
         viewModel.generateLevel()
-        val images = mutableListOf<ImageView>().apply {
-            add(binding.image0)
-            add(binding.image1)
-            add(binding.image2)
-            add(binding.image3)
-            add(binding.image4)
-            add(binding.image5)
-            add(binding.image6)
-            add(binding.image7)
-            add(binding.image8)
-            add(binding.image9)
-            add(binding.image10)
-            add(binding.image11)
-            add(binding.image12)
-            add(binding.image13)
-            add(binding.image14)
-            add(binding.image15)
-            add(binding.image16)
-            add(binding.image17)
-            add(binding.image18)
-            add(binding.image19)
-            add(binding.image20)
-            add(binding.image21)
-            add(binding.image22)
-            add(binding.image23)
-            add(binding.image24)
+        val imageButtons = getImagesList()
+        for (image in imageButtons) {
+            image.setImageResource(R.drawable.riddle)
         }
+       observeViewModel()
 
-        viewModel.imagesLD.observe(viewLifecycleOwner){
-//            Toast.makeText(requireContext(), it[0].toString(), Toast.LENGTH_LONG).show()
-
-            for (i in 0 until images.size) {
-                images[i].setImageResource(getResourceId(it[i]))
+        for (i in 0 until imageButtons.size) {
+            imageButtons[i].setOnClickListener {
+                imageButtons[i].apply {
+                    setImageResource(getResourceId(imagesList[i]))
+                    isEnabled = false
+                }
+                viewModel.clickImage(imagesList[i])
             }
         }
+    }
 
-
-        for (image in images) {
-            image.setOnClickListener {
-                image.setImageResource(R.drawable.done)
-            }
-        }
+    private fun getImagesList() = mutableListOf<ImageView>().apply {
+        add(binding.image0)
+        add(binding.image1)
+        add(binding.image2)
+        add(binding.image3)
+        add(binding.image4)
+        add(binding.image5)
+        add(binding.image6)
+        add(binding.image7)
+        add(binding.image8)
+        add(binding.image9)
+        add(binding.image10)
+        add(binding.image11)
+        add(binding.image12)
+        add(binding.image13)
+        add(binding.image14)
+        add(binding.image15)
+        add(binding.image16)
+        add(binding.image17)
+        add(binding.image18)
+        add(binding.image19)
+        add(binding.image20)
+        add(binding.image21)
+        add(binding.image22)
+        add(binding.image23)
+        add(binding.image24)
     }
 
     private fun getResourceId(s: ImageResources):Int{
@@ -97,7 +102,29 @@ class GameFragment : Fragment() {
             ImageResources.NEUTRALITY -> R.drawable.neutrality11
             ImageResources.CONFIDENTIALITY -> R.drawable.confidentiality12
         }
+    }
 
+    private fun observeViewModel(){
+        viewModel.imagesLD.observe(viewLifecycleOwner){
+            for (image in it) {
+                imagesList.add(image)
+            }
+        }
+        viewModel.guessed.observe(viewLifecycleOwner) {
+            if(it) {
+
+            } else {
+
+            }
+
+        }
+
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

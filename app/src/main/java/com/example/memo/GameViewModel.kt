@@ -32,12 +32,42 @@ class GameViewModel: ViewModel() {
         add(ImageResources.CONFIDENTIALITY)
         add(ImageResources.CONFIDENTIALITY)
     }
+
+    private lateinit var firstImage: ImageResources
+
     private val _imagesLD = MutableLiveData<List<ImageResources>>()
     val imagesLD: LiveData<List<ImageResources>>
         get() = _imagesLD
 
+    private val _firstClickDone = MutableLiveData<Boolean>()
+    val firstClickDone: LiveData<Boolean>
+        get() = _firstClickDone
+
+    private val _guessed = MutableLiveData<Boolean>()
+    val guessed: LiveData<Boolean>
+        get() = _guessed
+
+
+
 
     fun generateLevel(){
+        _firstClickDone.value = false
         _imagesLD.value = cards.shuffled()
+    }
+
+    fun clickImage(imageResources: ImageResources) {
+        if (firstClickDone.value == false) {
+            firstImage = imageResources
+            _firstClickDone.value = true
+        } else {
+            if (imageResources == firstImage) {
+                _guessed.value = true
+
+            } else {
+                _guessed.value = false
+            }
+            _firstClickDone.value = false
+        }
+
     }
 }
