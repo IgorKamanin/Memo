@@ -9,85 +9,77 @@ import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import com.example.memo.databinding.FragmentGameBinding
 
-
 class GameFragment : Fragment() {
-
     private var _binding: FragmentGameBinding? = null
     private val binding: FragmentGameBinding
-        get() =  _binding ?: throw RuntimeException("FragmentGameBinding == null")
-
+        get() = _binding ?: throw RuntimeException("FragmentGameBinding == null")
     private lateinit var viewModel: GameViewModel
     private val imagesList = mutableListOf<ImageResources>()
-    private var firstNumber: Int = -1
-    private var secondNumber: Int = -1
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentGameBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[GameViewModel::class.java]
         viewModel.generateLevel()
-        val imageButtons = getImagesList()
-        for (image in imageButtons) {
-            image.setImageResource(R.drawable.riddle)
+        val imageButtons = getImagesforButtons()
+        for (button in imageButtons) {
+            button.setImageResource(R.drawable.riddle)
         }
-       observeViewModel()
-
+        observeViewModel(imageButtons)
         for (i in 0 until imageButtons.size) {
             imageButtons[i].setOnClickListener {
                 imageButtons[i].apply {
-                    setImageResource(getResourceId(imagesList[i]))
                     isEnabled = false
+                    setImageResource(getResourceId(imagesList[i]))
                 }
                 viewModel.clickImage(imagesList[i])
             }
         }
     }
 
-    private fun getImagesList() = mutableListOf<ImageView>().apply {
-        add(binding.image0)
-        add(binding.image1)
-        add(binding.image2)
-        add(binding.image3)
-        add(binding.image4)
-        add(binding.image5)
-        add(binding.image6)
-        add(binding.image7)
-        add(binding.image8)
-        add(binding.image9)
-        add(binding.image10)
-        add(binding.image11)
-        add(binding.image12)
-        add(binding.image13)
-        add(binding.image14)
-        add(binding.image15)
-        add(binding.image16)
-        add(binding.image17)
-        add(binding.image18)
-        add(binding.image19)
-        add(binding.image20)
-        add(binding.image21)
-        add(binding.image22)
-        add(binding.image23)
-        add(binding.image24)
-    }
+    private fun getImagesforButtons() =
+        mutableListOf<ImageView>().apply {
+            add(binding.image0)
+            add(binding.image1)
+            add(binding.image2)
+            add(binding.image3)
+            add(binding.image4)
+            add(binding.image5)
+            add(binding.image6)
+            add(binding.image7)
+            add(binding.image8)
+            add(binding.image9)
+            add(binding.image10)
+            add(binding.image11)
+            add(binding.image12)
+            add(binding.image13)
+            add(binding.image14)
+            add(binding.image15)
+            add(binding.image16)
+            add(binding.image17)
+            add(binding.image18)
+            add(binding.image19)
+            add(binding.image20)
+            add(binding.image21)
+            add(binding.image22)
+            add(binding.image23)
+            add(binding.image24)
+        }
 
-    private fun getResourceId(s: ImageResources):Int{
-        return when(s){
+    private fun getResourceId(s: ImageResources): Int {
+        return when (s) {
             ImageResources.MEDIATION -> R.drawable.mediation0
             ImageResources.COOPERATE -> R.drawable.cooperate1
             ImageResources.TRASPARENCY -> R.drawable.trasparency2
@@ -101,25 +93,50 @@ class GameFragment : Fragment() {
             ImageResources.CAUCUS -> R.drawable.caucus10
             ImageResources.NEUTRALITY -> R.drawable.neutrality11
             ImageResources.CONFIDENTIALITY -> R.drawable.confidentiality12
+            ImageResources.DONE -> R.drawable.done
         }
     }
 
-    private fun observeViewModel(){
-        viewModel.imagesLD.observe(viewLifecycleOwner){
+    private fun observeViewModel(imageButtons: MutableList<ImageView>) {
+        viewModel.imagesLD.observe(viewLifecycleOwner) {
+            imagesList.clear()
             for (image in it) {
                 imagesList.add(image)
             }
+            for (i in 0 until imageButtons.size) {
+                if (imagesList[i] == ImageResources.DONE) {
+                    imageButtons[i].setImageResource(R.drawable.done)
+                } else {
+                    imageButtons[i].setImageResource(R.drawable.riddle)
+                }
+            }
         }
         viewModel.guessed.observe(viewLifecycleOwner) {
-            if(it) {
-
+            if (it) {
+                for (i in 0 until imageButtons.size) {
+                    if (imagesList[i] == ImageResources.DONE) {
+                        imageButtons[i].isEnabled = false
+                    } else {
+                        imageButtons[i].isEnabled = true
+                    }
+                }
             } else {
-
+                for (i in 0 until imageButtons.size) {
+                    if (imagesList[i] == ImageResources.DONE) {
+                        imageButtons[i].setImageResource(R.drawable.done)
+                        imageButtons[i].isEnabled = false
+                    } else {
+                        imageButtons[i].setImageResource(R.drawable.riddle)
+                        imageButtons[i].isEnabled = true
+                    }
+                }
             }
-
         }
-
-
+        viewModel.comparison.observe(viewLifecycleOwner) { it ->
+            if (it) {
+                imageButtons.forEach { imageButton -> imageButton.isEnabled = false }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -130,8 +147,9 @@ class GameFragment : Fragment() {
     companion object {
         fun newInstance() = GameFragment()
     }
-
 }
+
+
 
 
 
