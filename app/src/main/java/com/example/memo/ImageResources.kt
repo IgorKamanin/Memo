@@ -13,6 +13,7 @@ enum class ImageResources{
     CONFLICT,
     CAUCUS,
     NEUTRALITY,
-    CONFIDENTIALITY
+    CONFIDENTIALITY,
+    DONE
 }
 
