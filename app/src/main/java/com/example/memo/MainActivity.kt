@@ -20,8 +20,8 @@ class MainActivity : AppCompatActivity() {
         }
         supportFragmentManager.popBackStack()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.memo_fragment_container, GameFragment.newInstance(), null)
-            .addToBackStack(null)
+            .replace(R.id.memo_fragment_container, StartFragment.newInstance(), null)
+            .addToBackStack(StartFragment.NAME)
             .commit()
     }
 }
