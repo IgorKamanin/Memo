@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StartFragment"
+    android:background="@color/background_table">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView_lvl1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        android:backgroundTint="@color/background_table"
+        app:cardBackgroundColor="@color/background_table"
+        android:background="@color/background_table"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toTopOf="@+id/cardView_lvl2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <TextView
+            android:id="@+id/textView1lvl"
+            android:layout_width="378dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/enabled"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/level_1"
+            android:textSize="34sp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView_lvl2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        android:background="@color/background_table"
+        android:backgroundTint="@color/background_table"
+        app:cardBackgroundColor="@color/background_table"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="1dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toTopOf="@+id/cardView_lvl3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView_lvl1">
+
+        <TextView
+            android:id="@+id/textView1lv2"
+            android:layout_width="368dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/disabled"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/level_2"
+            android:textColor="@color/disabled_font"
+            android:textSize="34sp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView_lvl3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        android:backgroundTint="@color/background_table"
+        app:cardBackgroundColor="@color/background_table"
+        android:background="@color/background_table"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="1dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView_lvl2">
+
+        <TextView
+            android:id="@+id/textView1lv3"
+            android:layout_width="368dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/disabled"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/level3"
+            android:textColor="@color/disabled_font"
+            android:textSize="34sp" />
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

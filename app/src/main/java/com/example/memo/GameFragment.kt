@@ -9,14 +9,24 @@ import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import com.example.memo.databinding.FragmentGameBinding
 
+private const val GAME_MODE = "Game_mode"
+private const val START_TIME = "start time"
+
 class GameFragment : Fragment() {
     private var _binding: FragmentGameBinding? = null
     private val binding: FragmentGameBinding
         get() = _binding ?: throw RuntimeException("FragmentGameBinding == null")
+
     private lateinit var viewModel: GameViewModel
     private val imagesList = mutableListOf<ImageResources>()
+    private var gameMode: String? = null
+    private var startTime: Long = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        arguments?.let {
+            gameMode = it.getString(GAME_MODE)
+            startTime = it.getLong(START_TIME)
+        }
         super.onCreate(savedInstanceState)
     }
 
@@ -35,7 +45,7 @@ class GameFragment : Fragment() {
         viewModel.generateLevel()
         val imageButtons = getImagesforButtons()
         for (button in imageButtons) {
-            button.setImageResource(R.drawable.riddle)
+            button.setImageResource(R.drawable.cardback)
         }
         observeViewModel(imageButtons)
         for (i in 0 until imageButtons.size) {
@@ -107,7 +117,7 @@ class GameFragment : Fragment() {
                 if (imagesList[i] == ImageResources.DONE) {
                     imageButtons[i].setImageResource(R.drawable.done)
                 } else {
-                    imageButtons[i].setImageResource(R.drawable.riddle)
+                    imageButtons[i].setImageResource(R.drawable.cardback)
                 }
             }
         }
@@ -126,7 +136,7 @@ class GameFragment : Fragment() {
                         imageButtons[i].setImageResource(R.drawable.done)
                         imageButtons[i].isEnabled = false
                     } else {
-                        imageButtons[i].setImageResource(R.drawable.riddle)
+                        imageButtons[i].setImageResource(R.drawable.cardback)
                         imageButtons[i].isEnabled = true
                     }
                 }
@@ -137,6 +147,15 @@ class GameFragment : Fragment() {
                 imageButtons.forEach { imageButton -> imageButton.isEnabled = false }
             }
         }
+
+        viewModel.gameFinished.observe(viewLifecycleOwner) {
+            val finishTime = System.currentTimeMillis()
+            val gameTime = (finishTime - startTime) / 1000
+            val fragment = FinalFragment.newInstance(gameTime)
+            requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.memo_fragment_container, fragment)
+                    .commit()
+        }
     }
 
     override fun onDestroyView() {
@@ -145,9 +164,41 @@ class GameFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() = GameFragment()
+        private const val GAME_LEVEL_1 = "game level 1"
+        private const val GAME_LEVEL_2 = "game level 2"
+        private const val GAME_LEVEL_3 = "game level 3"
+        const val NAME = "GameFragment"
+
+        @JvmStatic
+        fun newInstanceLevel1(startTime: Long) = GameFragment().apply {
+            arguments = Bundle().apply {
+                putString(
+                    GAME_MODE, GAME_LEVEL_1
+                )
+                putLong(START_TIME, startTime)
+            }
+        }
+
+        @JvmStatic
+        fun newInstanceLevel2(startTime: Long) = GameFragment().apply {
+            arguments = Bundle().apply {
+                putString(
+                    GAME_MODE, GAME_LEVEL_2
+                )
+                putLong(START_TIME, startTime)
+            }
+        }
+
+        @JvmStatic
+        fun newInstanceLevel3(startTime: Long) = GameFragment().apply {
+            arguments = Bundle().apply {
+                putString(GAME_MODE, GAME_LEVEL_3)
+                putLong(START_TIME, startTime)
+            }
+        }
     }
 }
+
 
 
 

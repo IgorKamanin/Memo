@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Memo</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="image0">image0</string>
     <string name="image1">image1</string>
@@ -27,4 +26,12 @@
     <string name="image22">image22</string>
     <string name="image23">image23</string>
     <string name="image24">image24</string>
+    <string name="level_1">Уровень 1</string>
+    <string name="level_2">Уровень 2</string>
+    <string name="level3">Уровень 3</string>
+    <string name="congrats">"Поздравляю! Вы справились за "</string>
+    <string name="final_1">" секунду"</string>
+    <string name="final_2">" секунды"</string>
+    <string name="final_3">" секунд"</string>
+
 </resources>

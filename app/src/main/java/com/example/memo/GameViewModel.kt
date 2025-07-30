@@ -53,6 +53,10 @@ class GameViewModel : ViewModel() {
     val guessed: LiveData<Boolean>
         get() = _guessed
 
+    private val _gameFinished = MutableLiveData<Unit>()
+    val gameFinished: LiveData<Unit>
+        get() = _gameFinished
+
     fun generateLevel() {
         firstClickDone = false
         _imagesLD.value = shuffledList.toList()
@@ -88,6 +92,16 @@ class GameViewModel : ViewModel() {
                 }
             }
         }
-        _imagesLD.value = newList
+        var guessCount = 0
+        for (i in newList) {
+            if (i == ImageResources.DONE) {
+                guessCount++
+            }
+        }
+        if (guessCount == 24) {
+            _gameFinished.value = Unit
+        } else {
+            _imagesLD.value = newList
+        }
     }
 }
